@@ -1,0 +1,65 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Cream / light background */
+    --background: 91.5 0.038 85;
+    --foreground: 20 0.01 0;
+
+    --card: 97 0.015 85;
+    --card-foreground: 20 0.01 0;
+
+    --popover: 97 0.015 85;
+    --popover-foreground: 20 0.01 0;
+
+    /* Mango orange */
+    --primary: 65.5 0.165 58;
+    --primary-foreground: 100 0 0;
+
+    /* Dark green */
+    --secondary: 26 0.07 155;
+    --secondary-foreground: 95 0.02 85;
+
+    --muted: 88 0.025 85;
+    --muted-foreground: 40 0.01 0;
+
+    --accent: 65.5 0.165 58;
+    --accent-foreground: 100 0 0;
+
+    --destructive: 50 0.22 27;
+    --destructive-foreground: 100 0 0;
+
+    --border: 85 0.04 80;
+    --input: 85 0.04 80;
+    --ring: 65.5 0.165 58;
+
+    --radius: 0.75rem;
+
+    /* Custom tokens */
+    --cream: 91.5 0.038 85;
+    --forest: 26 0.07 155;
+    --forest-light: 32 0.065 155;
+    --mango: 65.5 0.165 58;
+    --mango-light: 70 0.14 65;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-family: "DM Sans", sans-serif;
+  }
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+/* Playfair Display helper */
+.font-display {
+  font-family: "Playfair Display", serif;
+}
