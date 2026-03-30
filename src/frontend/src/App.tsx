@@ -5,6 +5,7 @@ import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 import Hero from "@/components/Hero";
 import ProductsSection from "@/components/ProductsSection";
+import ReturnsSection from "@/components/ReturnsSection";
 import SeasonalBand from "@/components/SeasonalBand";
 import { Toaster } from "@/components/ui/sonner";
 import { CartProvider } from "@/context/CartContext";
@@ -25,6 +26,7 @@ function AppContent() {
         <ProductsSection />
         <FarmGallery />
         <AboutSection />
+        <ReturnsSection />
       </main>
       <Footer />
 

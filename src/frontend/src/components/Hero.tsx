@@ -149,7 +149,7 @@ export default function Hero({ onShopNow }: HeroProps) {
             <span>🌿</span> Kelshi, Dapoli, Ratnagiri
           </span>
           <span className="flex items-center gap-2">
-            <span>🚚</span> Free delivery above ₹999
+            <span>🚚</span> Free delivery in Pune &amp; PCMC
           </span>
           <span className="flex items-center gap-2">
             <span>⭐</span> 4.9/5 from 500+ customers

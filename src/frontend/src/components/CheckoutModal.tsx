@@ -15,6 +15,51 @@ import { motion } from "motion/react";
 import { useState } from "react";
 
 const WHATSAPP_NUMBER = "919422120121";
+const UPI_QR_IMAGE =
+  "/assets/googlepay_qr-019d3de7-da5a-7558-8652-073053df73ae.png";
+
+const PUNE_PCMC_KEYWORDS = [
+  "pune",
+  "pcmc",
+  "pimpri",
+  "chinchwad",
+  "pimpri-chinchwad",
+  "wakad",
+  "hinjewadi",
+  "baner",
+  "aundh",
+  "kothrud",
+  "hadapsar",
+  "viman nagar",
+  "kalyani nagar",
+  "kharadi",
+  "shivaji nagar",
+  "deccan",
+  "swargate",
+  "bibwewadi",
+  "kondhwa",
+  "undri",
+  "katraj",
+  "warje",
+  "paud",
+  "bavdhan",
+  "pashan",
+  "sus",
+  "nibm",
+  "wanowrie",
+  "lohegaon",
+  "dhanori",
+  "dighi",
+  "bhosari",
+  "moshi",
+  "dehu road",
+  "talegaon",
+];
+
+function isPunePCMC(address: string): boolean {
+  const lower = address.toLowerCase();
+  return PUNE_PCMC_KEYWORDS.some((kw) => lower.includes(kw));
+}
 
 interface CheckoutModalProps {
   open: boolean;
@@ -68,7 +113,10 @@ export default function CheckoutModal({ open, onClose }: CheckoutModalProps) {
   const [selectedPayment, setSelectedPayment] = useState("gpay");
   const [orderNumber, setOrderNumber] = useState("");
 
-  const delivery = totalPrice >= 999 ? 0 : 99;
+  const totalBoxes = items.reduce((sum, i) => sum + i.quantity, 0);
+  const inPunePCMC = isPunePCMC(form.address);
+  const delivery =
+    form.address.trim() === "" ? 0 : inPunePCMC ? 0 : totalBoxes * 200;
   const grandTotal = totalPrice + delivery;
 
   const validate = (): boolean => {
@@ -99,7 +147,10 @@ export default function CheckoutModal({ open, onClose }: CheckoutModalProps) {
     const payLabel =
       PAYMENT_OPTIONS.find((p) => p.id === selectedPayment)?.label ??
       selectedPayment;
-    return `🥭 *New Order from Kelshi Agro Products*%0AOrder No: *${orderNumber}*%0A%0A*Customer Details:*%0AName: ${form.name}%0APhone: ${form.phone}%0AAddress: ${form.address}%0A%0A*Items Ordered:*%0A${itemLines}%0A%0ADelivery: ${delivery === 0 ? "FREE" : `₹${delivery}`}%0A*Total Amount: ₹${grandTotal}*%0A%0APayment Method: ${payLabel}%0A%0APlease confirm and share payment details. Thank you! 🙏`;
+    const deliveryNote = inPunePCMC
+      ? "FREE (Pune / PCMC)"
+      : `₹${delivery} (₹200/box × ${totalBoxes} box${totalBoxes > 1 ? "es" : ""})`;
+    return `🥭 *New Order from Kelshi Agro Products*%0AOrder No: *${orderNumber}*%0A%0A*Customer Details:*%0AName: ${form.name}%0APhone: ${form.phone}%0AAddress: ${form.address}%0A%0A*Items Ordered:*%0A${itemLines}%0A%0ADelivery: ${deliveryNote}%0A*Total Amount: ₹${grandTotal}*%0A%0APayment Method: ${payLabel}%0A%0APlease confirm and share payment details. Thank you! 🙏`;
   };
 
   const handleWhatsApp = () => {
@@ -126,7 +177,7 @@ export default function CheckoutModal({ open, onClose }: CheckoutModalProps) {
         data-ocid="checkout.dialog"
       >
         <DialogHeader>
-          <DialogTitle className="font-display text-gray-900 text-xl">
+          <DialogTitle className="font-display text-black text-xl">
             {step === "done"
               ? "Order Confirmed! 🥭"
               : step === "payment"
@@ -144,17 +195,17 @@ export default function CheckoutModal({ open, onClose }: CheckoutModalProps) {
             data-ocid="checkout.success_state"
           >
             <CheckCircle className="w-16 h-16 text-green-500 mx-auto" />
-            <h3 className="font-display text-gray-900 text-2xl font-bold">
+            <h3 className="font-display text-black text-2xl font-bold">
               Thank You!
             </h3>
-            <p className="text-gray-600">
+            <p className="text-black">
               Your order has been sent to WhatsApp. We'll confirm shortly.
             </p>
             <div className="bg-white rounded-xl p-4 border border-border">
-              <p className="text-xs text-gray-500 uppercase tracking-wider mb-1">
+              <p className="text-xs text-black uppercase tracking-wider mb-1">
                 Order Number
               </p>
-              <p className="font-bold text-gray-900 text-lg">{orderNumber}</p>
+              <p className="font-bold text-black text-lg">{orderNumber}</p>
             </div>
             <Button
               onClick={handleClose}
@@ -175,7 +226,7 @@ export default function CheckoutModal({ open, onClose }: CheckoutModalProps) {
           >
             {/* Order summary */}
             <div className="bg-white rounded-xl p-4 border border-border space-y-2">
-              <p className="font-semibold text-gray-900 text-sm mb-2">
+              <p className="font-semibold text-black text-sm mb-2">
                 Order Summary
               </p>
               {items.map((item) => (
@@ -183,24 +234,56 @@ export default function CheckoutModal({ open, onClose }: CheckoutModalProps) {
                   key={item.product.id}
                   className="flex justify-between text-sm"
                 >
-                  <span className="text-gray-500">
+                  <span className="text-black">
                     {item.product.name} × {item.quantity}
                   </span>
-                  <span className="font-medium text-gray-900">
+                  <span className="font-medium text-black">
                     ₹{item.product.price * item.quantity}
                   </span>
                 </div>
               ))}
               <Separator />
-              <div className="flex justify-between font-bold text-gray-900">
+              <div className="flex justify-between text-sm">
+                <span className="text-black">Delivery</span>
+                <span
+                  className={
+                    inPunePCMC
+                      ? "text-green-600 font-medium"
+                      : "font-medium text-black"
+                  }
+                >
+                  {inPunePCMC
+                    ? "FREE (Pune / PCMC)"
+                    : `₹${delivery} (₹200/box)`}
+                </span>
+              </div>
+              <div className="flex justify-between font-bold text-black">
                 <span>Total</span>
                 <span>₹{grandTotal}</span>
               </div>
             </div>
 
+            {/* UPI QR Code */}
+            <div className="flex flex-col items-center gap-2 py-2">
+              <p className="text-sm font-semibold text-black">
+                Scan QR Code to Pay
+              </p>
+              <p className="text-xs text-black text-center">
+                Works with GPay, Paytm, PhonePe &amp; any UPI app
+              </p>
+              <div className="mt-1 p-3 bg-white rounded-2xl border border-gray-200 shadow-md">
+                <img
+                  src={UPI_QR_IMAGE}
+                  alt="UPI QR Code — scan to pay"
+                  className="w-48 h-48 object-contain"
+                  loading="lazy"
+                />
+              </div>
+            </div>
+
             {/* Payment method selection */}
-            <p className="text-sm font-medium text-gray-900">
-              Select Payment Method
+            <p className="text-sm font-medium text-black">
+              Or select your UPI app
             </p>
             <div className="grid grid-cols-2 gap-3">
               {PAYMENT_OPTIONS.map((opt) => (
@@ -224,7 +307,7 @@ export default function CheckoutModal({ open, onClose }: CheckoutModalProps) {
                   ) : (
                     <span className="text-2xl">📱</span>
                   )}
-                  <span className="text-xs font-semibold text-gray-900">
+                  <span className="text-xs font-semibold text-black">
                     {opt.label}
                   </span>
                 </button>
@@ -233,10 +316,10 @@ export default function CheckoutModal({ open, onClose }: CheckoutModalProps) {
 
             {/* UPI instructions */}
             <div className="bg-orange-50 border border-orange-200 rounded-xl p-4 space-y-2">
-              <p className="text-sm font-semibold text-gray-900">
+              <p className="text-sm font-semibold text-black">
                 How to pay via {selectedOption.label}
               </p>
-              <ol className="text-xs text-gray-700 space-y-1 list-decimal list-inside">
+              <ol className="text-xs text-black space-y-1 list-decimal list-inside">
                 <li>Open {selectedOption.label} on your phone</li>
                 <li>
                   Send <strong>₹{grandTotal}</strong> to UPI ID:{" "}
@@ -260,13 +343,13 @@ export default function CheckoutModal({ open, onClose }: CheckoutModalProps) {
               <MessageCircle className="w-5 h-5" />
               Confirm Order on WhatsApp
             </Button>
-            <p className="text-center text-xs text-gray-500">
+            <p className="text-center text-xs text-black">
               Clicking above opens WhatsApp with your order details pre-filled.
             </p>
             <button
               type="button"
               onClick={() => setStep("form")}
-              className="w-full text-sm text-gray-500 hover:text-gray-700 underline"
+              className="w-full text-sm text-black hover:text-gray-700 underline"
             >
               ← Back to details
             </button>
@@ -276,8 +359,14 @@ export default function CheckoutModal({ open, onClose }: CheckoutModalProps) {
         {/* STEP: FORM */}
         {step === "form" && (
           <form onSubmit={handleFormSubmit} className="space-y-4" noValidate>
+            {/* Delivery info banner */}
+            <div className="bg-green-50 border border-green-200 rounded-xl p-3 text-xs text-black">
+              🚚 <strong>Free delivery</strong> within Pune &amp; PCMC region.
+              Outside Pune/PCMC: <strong>₹200 per box</strong>.
+            </div>
+
             <div className="bg-white rounded-xl p-4 border border-border space-y-2">
-              <p className="font-semibold text-gray-900 text-sm mb-2">
+              <p className="font-semibold text-black text-sm mb-2">
                 Order Summary
               </p>
               {items.map((item) => (
@@ -285,38 +374,41 @@ export default function CheckoutModal({ open, onClose }: CheckoutModalProps) {
                   key={item.product.id}
                   className="flex justify-between text-sm"
                 >
-                  <span className="text-gray-500">
+                  <span className="text-black">
                     {item.product.name} × {item.quantity}
                   </span>
-                  <span className="font-medium text-gray-900">
+                  <span className="font-medium text-black">
                     ₹{item.product.price * item.quantity}
                   </span>
                 </div>
               ))}
               <Separator />
               <div className="flex justify-between text-sm">
-                <span className="text-gray-500">Delivery</span>
+                <span className="text-black">Delivery</span>
                 <span
                   className={
-                    delivery === 0
-                      ? "text-green-600 font-medium"
-                      : "font-medium"
+                    form.address.trim() === ""
+                      ? "text-black"
+                      : inPunePCMC
+                        ? "text-green-600 font-medium"
+                        : "font-medium text-black"
                   }
                 >
-                  {delivery === 0 ? "FREE" : `₹${delivery}`}
+                  {form.address.trim() === ""
+                    ? "Calculated from address"
+                    : inPunePCMC
+                      ? "FREE (Pune / PCMC)"
+                      : `₹${delivery} (₹200 × ${totalBoxes} box${totalBoxes > 1 ? "es" : ""})`}
                 </span>
               </div>
-              <div className="flex justify-between font-bold text-gray-900">
+              <div className="flex justify-between font-bold text-black">
                 <span>Total</span>
                 <span>₹{grandTotal}</span>
               </div>
             </div>
 
             <div className="space-y-1">
-              <Label
-                htmlFor="name"
-                className="text-gray-900 text-sm font-medium"
-              >
+              <Label htmlFor="name" className="text-black text-sm font-medium">
                 Full Name
               </Label>
               <Input
@@ -326,7 +418,7 @@ export default function CheckoutModal({ open, onClose }: CheckoutModalProps) {
                   setForm((p) => ({ ...p, name: e.target.value }))
                 }
                 placeholder="Rahul Sharma"
-                className="bg-white border-border"
+                className="bg-white border-border text-black placeholder:text-gray-500"
                 autoComplete="name"
                 name="name"
                 data-ocid="checkout.input"
@@ -342,10 +434,7 @@ export default function CheckoutModal({ open, onClose }: CheckoutModalProps) {
             </div>
 
             <div className="space-y-1">
-              <Label
-                htmlFor="phone"
-                className="text-gray-900 text-sm font-medium"
-              >
+              <Label htmlFor="phone" className="text-black text-sm font-medium">
                 Phone Number
               </Label>
               <Input
@@ -356,7 +445,7 @@ export default function CheckoutModal({ open, onClose }: CheckoutModalProps) {
                   setForm((p) => ({ ...p, phone: e.target.value }))
                 }
                 placeholder="9876543210"
-                className="bg-white border-border"
+                className="bg-white border-border text-black placeholder:text-gray-500"
                 autoComplete="tel"
                 name="phone"
                 maxLength={10}
@@ -375,7 +464,7 @@ export default function CheckoutModal({ open, onClose }: CheckoutModalProps) {
             <div className="space-y-1">
               <Label
                 htmlFor="address"
-                className="text-gray-900 text-sm font-medium"
+                className="text-black text-sm font-medium"
               >
                 Delivery Address
               </Label>
@@ -386,7 +475,7 @@ export default function CheckoutModal({ open, onClose }: CheckoutModalProps) {
                   setForm((p) => ({ ...p, address: e.target.value }))
                 }
                 placeholder="Flat 4B, Sunshine Apartments, MG Road, Pune - 411001"
-                className="bg-white border-border resize-none"
+                className="bg-white border-border resize-none text-black placeholder:text-gray-500"
                 rows={3}
                 autoComplete="street-address"
                 name="address"

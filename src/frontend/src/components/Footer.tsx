@@ -25,7 +25,7 @@ const FOOTER_LINKS: Record<
   FAQ: [
     { label: "How to Ripen", href: "#story" },
     { label: "Storage Tips", href: "#story" },
-    { label: "Returns", href: "#story" },
+    { label: "Returns", href: "#returns" },
     { label: "Contact Us", href: "https://wa.me/919422120121", external: true },
   ],
 };
@@ -38,7 +38,7 @@ export default function Footer() {
   return (
     <footer className="bg-gray-50 text-gray-700 pt-16 pb-8 px-4">
       <div className="max-w-6xl mx-auto">
-        <div className="grid grid-cols-2 md:grid-cols-5 gap-8 mb-12">
+        <div className="grid grid-cols-2 md:grid-cols-6 gap-8 mb-12">
           {/* Brand */}
           <div className="col-span-2 md:col-span-1">
             <div className="flex items-center gap-2 mb-4">
@@ -123,6 +123,51 @@ export default function Footer() {
               </ul>
             </div>
           ))}
+
+          {/* Contact Us */}
+          <div>
+            <h4 className="text-gray-900 font-semibold text-sm mb-4">
+              Contact Us
+            </h4>
+            <div className="space-y-4">
+              <div>
+                <p className="text-xs font-semibold text-gray-700 mb-1">
+                  📍 Farm
+                </p>
+                <p className="text-xs text-gray-600 leading-relaxed">
+                  Kelshi Agro Products
+                  <br />
+                  Behind Mahalaxmi Temple Kelshi,
+                  <br />
+                  Dapoli, Maharashtra - 415717
+                </p>
+              </div>
+              <div>
+                <p className="text-xs font-semibold text-gray-700 mb-1">
+                  📍 Pune
+                </p>
+                <p className="text-xs text-gray-600 leading-relaxed">
+                  Kelshi Agro Products
+                  <br />
+                  Pimple Saudagar,
+                  <br />
+                  Pune, Maharashtra - 411027
+                </p>
+              </div>
+              <div>
+                <p className="text-xs font-semibold text-gray-700 mb-1">
+                  📞 Contact
+                </p>
+                <a
+                  href="tel:9422120121"
+                  className="text-xs text-gray-600 hover:text-mango transition-colors"
+                  data-ocid="footer.link"
+                >
+                  9422120121
+                </a>
+              </div>
+            </div>
+          </div>
         </div>
 
         {/* Bottom bar */}
