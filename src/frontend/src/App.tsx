@@ -4,6 +4,7 @@ import FarmGallery from "@/components/FarmGallery";
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 import Hero from "@/components/Hero";
+import HowToRipenSection from "@/components/HowToRipenSection";
 import ProductsSection from "@/components/ProductsSection";
 import ReturnsSection from "@/components/ReturnsSection";
 import SeasonalBand from "@/components/SeasonalBand";
@@ -26,6 +27,7 @@ function AppContent() {
         <ProductsSection />
         <FarmGallery />
         <AboutSection />
+        <HowToRipenSection />
         <ReturnsSection />
       </main>
       <Footer />

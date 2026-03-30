@@ -10,7 +10,7 @@ import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { Textarea } from "@/components/ui/textarea";
 import { useCart } from "@/context/CartContext";
-import { CheckCircle, MessageCircle } from "lucide-react";
+import { CheckCircle, MessageCircle, Truck } from "lucide-react";
 import { motion } from "motion/react";
 import { useState } from "react";
 
@@ -206,6 +206,14 @@ export default function CheckoutModal({ open, onClose }: CheckoutModalProps) {
                 Order Number
               </p>
               <p className="font-bold text-black text-lg">{orderNumber}</p>
+            </div>
+            {/* Tracking info banner */}
+            <div className="flex items-start gap-3 bg-blue-50 border border-blue-200 rounded-xl p-4 text-left">
+              <Truck className="w-5 h-5 text-blue-500 mt-0.5 shrink-0" />
+              <p className="text-sm text-black">
+                <strong>Tracking details / link</strong> will be shared via
+                WhatsApp once your order is dispatched. 📦
+              </p>
             </div>
             <Button
               onClick={handleClose}

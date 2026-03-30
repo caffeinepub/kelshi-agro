@@ -23,8 +23,8 @@ const FOOTER_LINKS: Record<
     { label: "Bulk Orders", href: "#products" },
   ],
   FAQ: [
-    { label: "How to Ripen", href: "#story" },
-    { label: "Storage Tips", href: "#story" },
+    { label: "How to Ripen", href: "#how-to-ripen" },
+    { label: "Storage Tips", href: "#how-to-ripen" },
     { label: "Returns", href: "#returns" },
     { label: "Contact Us", href: "https://wa.me/919422120121", external: true },
   ],
@@ -164,6 +164,18 @@ export default function Footer() {
                   data-ocid="footer.link"
                 >
                   9422120121
+                </a>
+              </div>
+              <div>
+                <p className="text-xs font-semibold text-gray-700 mb-1">
+                  ✉️ Email
+                </p>
+                <a
+                  href="mailto:kelshiagro@gmail.com"
+                  className="text-xs text-gray-600 hover:text-mango transition-colors"
+                  data-ocid="footer.link"
+                >
+                  kelshiagro@gmail.com
                 </a>
               </div>
             </div>

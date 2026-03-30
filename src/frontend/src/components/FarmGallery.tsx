@@ -13,7 +13,7 @@ export default function FarmGallery() {
       alt: "Cut mango showing rich orange pulp",
     },
     {
-      src: "/assets/uploads/img-20260328-wa0040_crop-019d3da7-f74a-744b-b113-c77afc9d14db-1.jpg",
+      src: "/assets/img-20260328-wa0040_crop-019d3e2a-c8fd-7713-9982-913ba358cc3e.jpg",
       caption: "Assal Hapus — Authentic Alphonso from Kelshi Agro Products",
       alt: "Kelshi Agro Products promotional photo showing mangoes and cut pulp",
     },
